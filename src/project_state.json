@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build a job tracker aggregating open accounting and analytics job postings from Big 4 and mid-size accounting firms.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimal geometric logo mark with briefcase + bar-chart motif, warm neutral palette (job-tracker-logo.dim_512x512.png)\n- Empty-state illustration of a tidy desk with a checklist and a small chart, warm neutral palette (empty-tracker-illustration.dim_1200x800.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-sign-in-so-each-user-can-maintain-their-own-job-tracker-data-saved-jobs-application-status-notes-tied-to-their-principal",
+      "title": "Implement Internet Identity sign-in so each user can maintain their own job tracker data (saved jobs, application status, notes) tied to their principal.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-seed-the-app-with-an-initial-firm-directory-that-includes-the-big-4-deloitte-pwc-ey-kpmg-and-supports-adding-editing-mid-size-firms-via-an-in-app-admin-style-ui-no-external-integrations-required",
+      "title": "Seed the app with an initial firm directory that includes the Big 4 (Deloitte, PwC, EY, KPMG) and supports adding/editing mid-size firms via an in-app admin-style UI (no external integrations required).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-core-job-board-ui-a-searchable-filterable-list-of-open-job-postings-with-filters-for-firm-category-accounting-analytics-and-location-keyword-each-job-must-show-title-firm-location-category-and-a-link-to-the-posting-url",
+      "title": "Build the core job board UI: a searchable, filterable list of open job postings with filters for firm, category (Accounting/Analytics), and location keyword. Each job must show title, firm, location, category, and a link to the posting URL.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-my-tracker-view-that-shows-only-jobs-the-signed-in-user-has-saved-grouped-or-filterable-by-applicationstatus-with-quick-actions-to-update-status-and-edit-notes",
+      "title": "Add a 'My Tracker' view that shows only jobs the signed-in user has saved, grouped or filterable by applicationStatus, with quick actions to update status and edit notes.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-simple-job-ingestion-workflow-suitable-for-maintaining-all-open-postings-without-scraping-allow-authorized-users-to-create-edit-close-job-postings-via-ui-and-support-bulk-import-by-pasting-csv-text-title-firmname-category-location-postingurl-open",
+      "title": "Provide a simple job ingestion workflow suitable for maintaining 'all open postings' without scraping: allow authorized users to create/edit/close job postings via UI and support bulk import by pasting CSV text (title, firmName, category, location, postingUrl, open).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-lightweight-analytics-dashboards-1-counts-of-open-jobs-by-firm-and-by-category-2-counts-of-saved-jobs-by-applicationstatus-for-the-signed-in-user-and-3-a-trend-indicator-based-on-dateposted-when-available",
+      "title": "Add lightweight analytics dashboards: (1) counts of open jobs by firm and by category, (2) counts of saved jobs by applicationStatus for the signed-in user, and (3) a trend indicator based on datePosted when available.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-coherent-visual-theme-across-the-app-layout-typography-component-styling-suitable-for-an-accounting-career-tracking-tool-warm-neutral-palette-e-g-sand-cream-charcoal-clear-data-dense-tables-cards-and-restrained-accent-color-not-blue-purple",
+      "title": "Apply a coherent visual theme across the app (layout, typography, component styling) suitable for an accounting/career-tracking tool: warm neutral palette (e.g., sand/cream/charcoal), clear data-dense tables/cards, and restrained accent color (not blue/purple).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-static-visual-assets-for-the-app-logo-and-empty-state-illustration-and-render-them-in-the-ui-from-frontend-public-assets-generated-do-not-route-images-through-the-backend",
+      "title": "Generate and include static visual assets for the app (logo and empty-state illustration) and render them in the UI from frontend/public/assets/generated (do not route images through the backend).",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create a job tracker that lists all open accounting and analytics job postings at Big 4 and mid-size accounting firms.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Create a backend data model and API for job postings, firms, and user tracking fields. Job posting fields must include: id, title, firmId, firmName, category (Accounting|Analytics), location (free text), postingUrl, datePosted (optional), employmentType (optional), and open/closed status. User tracking fields must include: saved (boolean), applicationStatus (Not applied|Applied|Interviewing|Offer|Rejected|Withdrawn), notes (text), and lastUpdated timestamp.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Job Tracker",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

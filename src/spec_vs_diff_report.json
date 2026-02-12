@@ -1,0 +1,88 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-11T00:04:30.768Z",
+  "summary": "Diff adds a Motoko backend actor with job/firm/tracking types and initial Big 4 seeding, plus a React frontend with Internet Identity auth, routing, admin pages/guards, job details dialog with tracking controls, analytics hooks, and theme variables. Several requirements are partially evidenced, but some key spec items (notably upgrade-safe persistence and strict domain enums) are not clearly satisfied from the provided diff excerpt.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Backend stores data persistently across canister upgrades using stable data structures appropriate for Motoko",
+      "reason": "The backend snippet shows in-memory `Map.empty` structures and mutable counters, but no `stable` variables or `preupgrade`/`postupgrade` migration/persistence code is evidenced in the provided (truncated) `backend/main.mo` content.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Backend exposes query methods to list open job postings with filtering by firm, category, and keyword search",
+      "reason": "Frontend query hook calls `actor.getAllOpenJobs()` with no filter parameters, and no backend filtered query methods are evidenced in the visible backend snippet (backend content is truncated).",
+      "evidence": [
+        "frontend/src/hooks/useQueries.ts",
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Expanded job categories beyond the specified Accounting|Analytics (adds Audit and Tax)",
+      "reason": "Spec constrains `category` to Accounting|Analytics, but backend/frontend include `#audit` and `#tax`/labels and enums.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/jobs/JobDetailsDialog.tsx",
+        "frontend/src/pages/AdminJobsPage.tsx"
+      ]
+    },
+    {
+      "description": "User profile collection (name/email) and mandatory profile setup dialog",
+      "reason": "BuildRequest does not ask for user profiles; diff adds `UserProfile` types and profile CRUD plus a blocking onboarding dialog.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "frontend/src/hooks/useUserProfile.ts"
+      ]
+    },
+    {
+      "description": "Secret-token based access-control initialization via URL parameter (`caffeineAdminToken`)",
+      "reason": "BuildRequest mentions authorized users/admin-style UI but does not specify a secret URL token bootstrap mechanism; diff adds `_initializeAccessControlWithSecret` call driven by a URL parameter.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/admin/AdminGuard.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupDialog.tsx",
+    "frontend/src/components/auth/RequireAuth.tsx",
+    "frontend/src/components/common/EmptyState.tsx",
+    "frontend/src/components/jobs/JobDetailsDialog.tsx",
+    "frontend/src/components/layout/AppShell.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useAnalytics.ts",
+    "frontend/src/hooks/useFirms.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useJobTracking.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/hooks/useUserProfile.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/AdminFirmsPage.tsx",
+    "frontend/src/pages/AdminJobsPage.tsx",
+    "frontend/src/pages/BulkImportPage.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/JobBoardPage.tsx",
+    "frontend/src/pages/MyTrackerPage.tsx",
+    "frontend/src/utils/csvImport.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

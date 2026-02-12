@@ -1,0 +1,260 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Job tracker for open accounting & analytics roles (Big 4 + mid-size firms)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity sign-in and enforce signed-in-only access for saving/updating per-user tracker fields while keeping public job browsing available.",
+      "acceptanceCriteria": [
+        "User can sign in/out with Internet Identity",
+        "After signing in, the user sees only their own tracker data (no cross-user leakage)",
+        "Unauthenticated users can browse the job list but cannot save jobs or change tracker fields (prompt to sign in)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the top-level app shell and routing, integrate authentication-aware navigation, and wire signed-in-only routes (My Tracker, admin screens) while keeping Job Board and Dashboard browseable; show sign-in prompts for restricted actions. Use the selected authorization component patterns for Internet Identity session state and cache clearing on logout; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Implement a login/logout button using the existing Internet Identity hook; on logout clear React Query cached data as recommended by the selected authorization component; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useUserProfile.ts",
+          "operation": "create",
+          "description": "Add React Query hooks to load/save the caller user profile and drive a first-login profile setup modal without flashing (per selected authorization component guidance); verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "create",
+          "description": "Create a modal dialog prompting for the user's display name on first login (and any required profile fields supported by the backend interface), saving via the user profile hook; verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/RequireAuth.tsx",
+          "operation": "create",
+          "description": "Add a small wrapper component for gating signed-in-only UI sections and actions (e.g., save/status/notes) by checking identity presence; when blocked, render a sign-in prompt. Verify the selected authorization component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Provide an in-app admin-style UI to add/edit mid-size firms while ensuring the seeded Big 4 are visible and firm names are displayed consistently.",
+      "acceptanceCriteria": [
+        "Firm list initially contains Deloitte, PwC, EY, and KPMG",
+        "User can add a new firm with name and careers page URL (optional)",
+        "Job postings reference firms by firmId and display firm name consistently in the UI"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useFirms.ts",
+          "operation": "create",
+          "description": "Add React Query hooks to fetch firms and to add/update firms for the admin UI, using the existing actor wiring. Include handling for authorization errors and show a friendly access denied state for non-admins. Verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/AdminFirmsPage.tsx",
+          "operation": "create",
+          "description": "Create an admin-style Firms management screen with a data-dense table and an add/edit form (name + optional careers/website URL), backed by firm hooks. Gate access by role/admin check and render an access denied screen when unauthorized. Verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/admin/AdminGuard.tsx",
+          "operation": "create",
+          "description": "Create an admin guard that checks caller role/admin status and protects admin-only pages (Firms, Job ingestion). Gracefully handle authorization traps. Verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useJobs.ts",
+          "operation": "create",
+          "description": "Add job list hooks that enrich job postings with firm display name and provide filtering utilities; ensure firm display is consistent across Job Board, details view, tracker, and dashboards."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Firms admin page into routing/navigation under an admin section, protected by the AdminGuard; ensure it is not accessible to guests/users without authorization. Verify the selected authorization component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Build the core Job Board UI with search/filter controls, open job list, and a job details view that includes tracking controls.",
+      "acceptanceCriteria": [
+        "User can filter the job list by firm and by category",
+        "User can search by keyword across title and location",
+        "Clicking a job opens a details view (modal or page) that includes the posting URL link and tracking controls (save/status/notes when signed in)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/JobBoardPage.tsx",
+          "operation": "create",
+          "description": "Implement the Job Board page with searchable/filterable list of open jobs (firm, category, location/keyword across title+location) and a data-dense table/cards layout. Selecting a job opens the Job Details view."
+        },
+        {
+          "path": "frontend/src/components/jobs/JobDetailsDialog.tsx",
+          "operation": "create",
+          "description": "Create a modal/dialog job details view showing title, firm, location, category, and a link to postingUrl, plus tracking controls: save toggle, status selector, notes editor. If unauthenticated, show a sign-in prompt and disable tracking controls. Verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useJobTracking.ts",
+          "operation": "create",
+          "description": "Add hooks to load and update user-specific tracking (saved/status/notes) for the current signed-in user, with optimistic UI updates and graceful handling of authorization failures. Verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register and wire the Job Board route as a primary navigation item and default landing route."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Add a signed-in-only My Tracker view showing saved jobs grouped/filterable by application status with quick update actions.",
+      "acceptanceCriteria": [
+        "My Tracker is available only when signed in",
+        "Saved jobs appear in My Tracker with current applicationStatus and notes preview",
+        "User can update applicationStatus and notes and see changes reflected immediately"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/MyTrackerPage.tsx",
+          "operation": "create",
+          "description": "Implement My Tracker page (signed-in only) that lists saved jobs and supports grouping/filtering by applicationStatus, with inline quick actions to update status and edit notes. Use the tracking hooks for immediate UI reflection. Verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/common/EmptyState.tsx",
+          "operation": "create",
+          "description": "Create a reusable empty-state component used by My Tracker when no saved jobs exist; include the generated illustration asset at frontend/public/assets/generated/empty-tracker-illustration.dim_1200x800.png."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the My Tracker route and navigation item, gated behind RequireAuth (and/or route guard) so it is only accessible when signed in. Verify the selected authorization component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Implement an authorized job ingestion UI: add/edit/close job postings and bulk import via pasted CSV with row-level validation feedback.",
+      "acceptanceCriteria": [
+        "There is a UI to add a single job posting and to mark a posting as closed",
+        "There is a bulk import screen that accepts pasted CSV and reports row-level validation errors",
+        "Imported jobs appear in the open job list immediately after successful import"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/AdminJobsPage.tsx",
+          "operation": "create",
+          "description": "Create an admin-only job posting management page: create/edit a job posting (title, firm, category, location, posting URL, optional fields) and mark as closed. Gate via AdminGuard and show access denied for unauthorized users. Verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/BulkImportPage.tsx",
+          "operation": "create",
+          "description": "Create an admin-only bulk import screen that accepts pasted CSV text, parses to structured rows, performs client-side validation with row-level errors, and submits valid rows for import. Gate via AdminGuard and show access denied for unauthorized users. Verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/utils/csvImport.ts",
+          "operation": "create",
+          "description": "Add CSV parsing and validation utilities for the bulk import workflow (required columns, category normalization, open/closed boolean parsing, URL checks) producing per-row error reporting."
+        },
+        {
+          "path": "frontend/src/hooks/useJobs.ts",
+          "operation": "modify",
+          "description": "Extend job hooks to include admin mutations for create/update/close and to invalidate/refetch open job queries after successful ingestion so imported/edited jobs appear immediately."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire admin ingestion routes (Jobs 관리 + Bulk Import) into routing/navigation under an admin section, protected by AdminGuard. Verify the selected authorization component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Add dashboards for open-job counts (by firm and category), user saved-job counts (by status), and a trend indicator based on datePosted when available.",
+      "acceptanceCriteria": [
+        "Dashboard renders open job counts by firm and category",
+        "When signed in, dashboard shows the user's saved-job counts by applicationStatus",
+        "If datePosted exists for any jobs, the UI shows a basic time-series or recent-postings breakdown; otherwise the UI gracefully indicates 'Date data not available'"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "create",
+          "description": "Implement the Dashboard page: render open job counts by firm and category, render user saved-job counts by applicationStatus when signed in, and render a trend widget that shows a time-based breakdown when datePosted data exists (otherwise show a clear 'Date data not available' message)."
+        },
+        {
+          "path": "frontend/src/hooks/useAnalytics.ts",
+          "operation": "create",
+          "description": "Add hooks for dashboard analytics queries (open jobs by firm, open jobs by category, user jobs by status, and posting trend). Ensure user-specific analytics only run when authenticated, and handle authorization failures gracefully. Verify the selected authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Dashboard route into primary navigation."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Apply a warm neutral, readable, data-dense visual theme across all core screens while avoiding blue/purple as the primary palette.",
+      "acceptanceCriteria": [
+        "All core screens (Job Board, Job Details, My Tracker, Import, Dashboard) share consistent styling and spacing",
+        "Theme avoids blue & purple as the primary palette",
+        "UI remains readable for data-heavy lists (appropriate contrast, typographic hierarchy)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Define global theme tokens (CSS variables) and base styles to achieve a warm neutral palette (sand/cream/charcoal) with restrained non-blue/non-purple accent, plus readable typography and spacing defaults for data-heavy views."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust Tailwind theme extensions (including chart color tokens) to match the warm neutral palette and restrained accent; ensure chart colors do not default to blue/purple."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "create",
+          "description": "Create a shared layout (header/nav/content) to enforce consistent spacing, typography, and component styling across Job Board, Job Details, My Tracker, Import, and Dashboard."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap all routes in the shared AppShell layout so all core screens inherit the coherent theme and consistent layout."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Include generated static assets (logo and empty-state illustration) under frontend/public/assets/generated and render them in the UI.",
+      "acceptanceCriteria": [
+        "Generated images exist under frontend/public/assets/generated and are referenced directly by the frontend",
+        "Logo is displayed in the app header/nav",
+        "Empty-state illustration is displayed when My Tracker has no saved jobs"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/job-tracker-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated logo asset at the exact required path: frontend/public/assets/generated/job-tracker-logo.dim_512x512.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/empty-tracker-illustration.dim_1200x800.png",
+          "operation": "create",
+          "description": "Add the generated empty-state illustration asset at the exact required path: frontend/public/assets/generated/empty-tracker-illustration.dim_1200x800.png."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "modify",
+          "description": "Render the logo in the app header/nav using the static asset at frontend/public/assets/generated/job-tracker-logo.dim_512x512.png."
+        },
+        {
+          "path": "frontend/src/components/common/EmptyState.tsx",
+          "operation": "modify",
+          "description": "Render the empty-state illustration for My Tracker using the static asset at frontend/public/assets/generated/empty-tracker-illustration.dim_1200x800.png."
+        }
+      ]
+    }
+  ]
+}

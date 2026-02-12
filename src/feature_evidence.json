@@ -1,0 +1,178 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-sign-in-so-each-user-can-maintain-their-own-job-tracker-data-saved-jobs-application-status-notes-tied-to-their-principal",
+      "featureTitle": "Implement Internet Identity sign-in so each user can maintain their own job tracker data (saved jobs, application status, notes) tied to their principal.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "frontend/src/components/auth/RequireAuth.tsx",
+        "frontend/src/hooks/useUserProfile.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-seed-the-app-with-an-initial-firm-directory-that-includes-the-big-4-deloitte-pwc-ey-kpmg-and-supports-adding-editing-mid-size-firms-via-an-in-app-admin-style-ui-no-external-integrations-required",
+      "featureTitle": "Seed the app with an initial firm directory that includes the Big 4 (Deloitte, PwC, EY, KPMG) and supports adding/editing mid-size firms via an in-app admin-style UI (no external integrations required).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/admin/AdminGuard.tsx",
+        "frontend/src/hooks/useFirms.ts",
+        "frontend/src/pages/AdminFirmsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-the-core-job-board-ui-a-searchable-filterable-list-of-open-job-postings-with-filters-for-firm-category-accounting-analytics-and-location-keyword-each-job-must-show-title-firm-location-category-and-a-link-to-the-posting-url",
+      "featureTitle": "Build the core job board UI: a searchable, filterable list of open job postings with filters for firm, category (Accounting/Analytics), and location keyword. Each job must show title, firm, location, category, and a link to the posting URL.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/jobs/JobDetailsDialog.tsx",
+        "frontend/src/hooks/useJobTracking.ts",
+        "frontend/src/pages/JobBoardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-my-tracker-view-that-shows-only-jobs-the-signed-in-user-has-saved-grouped-or-filterable-by-applicationstatus-with-quick-actions-to-update-status-and-edit-notes",
+      "featureTitle": "Add a 'My Tracker' view that shows only jobs the signed-in user has saved, grouped or filterable by applicationStatus, with quick actions to update status and edit notes.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/common/EmptyState.tsx",
+        "frontend/src/pages/MyTrackerPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-provide-a-simple-job-ingestion-workflow-suitable-for-maintaining-all-open-postings-without-scraping-allow-authorized-users-to-create-edit-close-job-postings-via-ui-and-support-bulk-import-by-pasting-csv-text-title-firmname-category-location-postingurl-open",
+      "featureTitle": "Provide a simple job ingestion workflow suitable for maintaining 'all open postings' without scraping: allow authorized users to create/edit/close job postings via UI and support bulk import by pasting CSV text (title, firmName, category, location, postingUrl, open).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/AdminJobsPage.tsx",
+        "frontend/src/pages/BulkImportPage.tsx",
+        "frontend/src/utils/csvImport.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-lightweight-analytics-dashboards-1-counts-of-open-jobs-by-firm-and-by-category-2-counts-of-saved-jobs-by-applicationstatus-for-the-signed-in-user-and-3-a-trend-indicator-based-on-dateposted-when-available",
+      "featureTitle": "Add lightweight analytics dashboards: (1) counts of open jobs by firm and by category, (2) counts of saved jobs by applicationStatus for the signed-in user, and (3) a trend indicator based on datePosted when available.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useAnalytics.ts",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-coherent-visual-theme-across-the-app-layout-typography-component-styling-suitable-for-an-accounting-career-tracking-tool-warm-neutral-palette-e-g-sand-cream-charcoal-clear-data-dense-tables-cards-and-restrained-accent-color-not-blue-purple",
+      "featureTitle": "Apply a coherent visual theme across the app (layout, typography, component styling) suitable for an accounting/career-tracking tool: warm neutral palette (e.g., sand/cream/charcoal), clear data-dense tables/cards, and restrained accent color (not blue/purple).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppShell.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-static-visual-assets-for-the-app-logo-and-empty-state-illustration-and-render-them-in-the-ui-from-frontend-public-assets-generated-do-not-route-images-through-the-backend",
+      "featureTitle": "Generate and include static visual assets for the app (logo and empty-state illustration) and render them in the UI from frontend/public/assets/generated (do not route images through the backend).",
+      "files": [
+        "frontend/src/components/common/EmptyState.tsx",
+        "frontend/src/components/layout/AppShell.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

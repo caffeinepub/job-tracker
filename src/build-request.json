@@ -1,0 +1,193 @@
+{
+  "kind": "build_request",
+  "title": "Job tracker for open accounting & analytics roles at Big 4 and mid-size accounting firms",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity sign-in so each user can maintain their own job tracker data (saved jobs, application status, notes) tied to their principal.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Create a new job tracker for me. All the accounting and analytics job postings that are open in Big 4 firms and mid-size accounting firms."
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in/out with Internet Identity",
+        "After signing in, the user sees only their own tracker data (no cross-user leakage)",
+        "Unauthenticated users can browse the job list but cannot save jobs or change tracker fields (prompt to sign in)"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create a backend data model and API for job postings, firms, and user tracking fields. Job posting fields must include: id, title, firmId, firmName, category (Accounting|Analytics), location (free text), postingUrl, datePosted (optional), employmentType (optional), and open/closed status. User tracking fields must include: saved (boolean), applicationStatus (Not applied|Applied|Interviewing|Offer|Rejected|Withdrawn), notes (text), and lastUpdated timestamp.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "All the accounting and analytics job postings that are open in Big 4 firms and mid-size accounting firms."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes query methods to list open job postings with filtering by firm, category, and keyword search",
+        "Backend exposes methods to save/unsave a job and to update user-specific applicationStatus and notes",
+        "Backend stores data persistently across canister upgrades using stable data structures appropriate for Motoko"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Seed the app with an initial firm directory that includes the Big 4 (Deloitte, PwC, EY, KPMG) and supports adding/editing mid-size firms via an in-app admin-style UI (no external integrations required).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Big 4 firms and mid-size accounting firms."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Firm list initially contains Deloitte, PwC, EY, and KPMG",
+        "User can add a new firm with name and careers page URL (optional)",
+        "Job postings reference firms by firmId and display firm name consistently in the UI"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Build the core job board UI: a searchable, filterable list of open job postings with filters for firm, category (Accounting/Analytics), and location keyword. Each job must show title, firm, location, category, and a link to the posting URL.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "All the accounting and analytics job postings that are open..."
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can filter the job list by firm and by category",
+        "User can search by keyword across title and location",
+        "Clicking a job opens a details view (modal or page) that includes the posting URL link and tracking controls (save/status/notes when signed in)"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Add a 'My Tracker' view that shows only jobs the signed-in user has saved, grouped or filterable by applicationStatus, with quick actions to update status and edit notes.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Create a new job tracker for me."
+        ]
+      },
+      "acceptanceCriteria": [
+        "My Tracker is available only when signed in",
+        "Saved jobs appear in My Tracker with current applicationStatus and notes preview",
+        "User can update applicationStatus and notes and see changes reflected immediately"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Provide a simple job ingestion workflow suitable for maintaining 'all open postings' without scraping: allow authorized users to create/edit/close job postings via UI and support bulk import by pasting CSV text (title, firmName, category, location, postingUrl, open).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "All the accounting and analytics job postings that are open..."
+        ]
+      },
+      "acceptanceCriteria": [
+        "There is a UI to add a single job posting and to mark a posting as closed",
+        "There is a bulk import screen that accepts pasted CSV and reports row-level validation errors",
+        "Imported jobs appear in the open job list immediately after successful import"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Add lightweight analytics dashboards: (1) counts of open jobs by firm and by category, (2) counts of saved jobs by applicationStatus for the signed-in user, and (3) a trend indicator based on datePosted when available.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "job tracker",
+          "accounting and analytics job postings"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard renders open job counts by firm and category",
+        "When signed in, dashboard shows the user's saved-job counts by applicationStatus",
+        "If datePosted exists for any jobs, the UI shows a basic time-series or recent-postings breakdown; otherwise the UI gracefully indicates 'Date data not available'"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Apply a coherent visual theme across the app (layout, typography, component styling) suitable for an accounting/career-tracking tool: warm neutral palette (e.g., sand/cream/charcoal), clear data-dense tables/cards, and restrained accent color (not blue/purple).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All core screens (Job Board, Job Details, My Tracker, Import, Dashboard) share consistent styling and spacing",
+        "Theme avoids blue & purple as the primary palette",
+        "UI remains readable for data-heavy lists (appropriate contrast, typographic hierarchy)"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Generate and include static visual assets for the app (logo and empty-state illustration) and render them in the UI from frontend/public/assets/generated (do not route images through the backend).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images exist under frontend/public/assets/generated and are referenced directly by the frontend",
+        "Logo is displayed in the app header/nav",
+        "Empty-state illustration is displayed when My Tracker has no saved jobs"
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor with all logic in the main actor file; add migration code only if an upgrade requires it",
+    "Do not edit files under frontend/src/components/ui or other immutable paths provided by the platform; compose UI using those components instead",
+    "Do not implement third-party authentication providers; only Internet Identity is allowed",
+    "Do not rely on external databases or third-party scraping services"
+  ],
+  "nonGoals": [
+    "Automated web scraping of Big 4 or mid-size firm career sites",
+    "Real-time updates/streaming of job postings",
+    "Integration with external ATS systems (Workday, Greenhouse, etc.)",
+    "Email notifications or push notifications"
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal geometric logo mark with briefcase + bar-chart motif, warm neutral palette (job-tracker-logo.dim_512x512.png)",
+      "Empty-state illustration of a tidy desk with a checklist and a small chart, warm neutral palette (empty-tracker-illustration.dim_1200x800.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}
